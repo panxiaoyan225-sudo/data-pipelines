@@ -1,0 +1,13 @@
+# 1. Ignore the heavy virtual environment inside the pipeline folder
+venv/
+
+# 2. Ignore Python's temporary "cache" files (they make your GitHub messy)
+**/__pycache__/
+*.pyc
+
+# 3. Ignore local system files
+.DS_Store
+Thumbs.db
+
+# 4. Ignore environment variables (passwords/API keys)
+.env
