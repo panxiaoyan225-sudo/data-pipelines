@@ -3,12 +3,17 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv, find_dotenv
 import os
 
+# MySQL credentials
 load_dotenv(find_dotenv())
+# Fetching all components from .env
+user = os.getenv("DB_USER")
+pw = os.getenv("DB_PASS")
+host = os.getenv("DB_HOST")
+port = os.getenv("DB_PORT")
+db = os.getenv("DB_NAME")
 
-db_password = os.getenv("DB_PASS")
-
-# Configuration
-DB_CONN = f"mysql+pymysql://root:{db_password}@localhost:3306/sakila"
+# A cleaner, more professional connection string
+DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
 # Public API for university data
 URL = "http://universities.hipolabs.com/search?country=Canada"
 

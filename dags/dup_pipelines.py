@@ -7,17 +7,23 @@ import requests
 
 # 1. LOAD CONFIGURATION
 # find_dotenv() must have () to work correctly
+# MySQL credentials
 load_dotenv(find_dotenv())
+# Fetching all components from .env
+user = os.getenv("DB_USER")
+pw = os.getenv("DB_PASS")
+host = os.getenv("DB_HOST")
+port = os.getenv("DB_PORT")
+db = os.getenv("DB_NAME")
 
-db_password = os.getenv("DB_PASS")
-SLACK_TOKEN = os.getenv("SLACK_TOKEN")
-SLACK_CHANNEL = "#audit-alerts"
-
-# charset=utf8mb4 is essential for handling special characters
-DB_CONN = f"mysql+pymysql://root:{db_password}@localhost:3306/sakila"
+# A cleaner, more professional connection string
+DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
 #DB_CONN = f"mysql+pymysql://root:{db_password}@localhost:3306/sakila?charset=utf8mb4"
 engine = create_engine(DB_CONN)
 
+
+SLACK_TOKEN = os.getenv("SLACK_TOKEN")
+SLACK_CHANNEL = "#audit-alerts"
 report = []
 
 # 2. SLACK UTILITY
