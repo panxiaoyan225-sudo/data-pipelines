@@ -1,6 +1,6 @@
 # Multi-Source Data Pipeline & Automated Auditor
 
-This project demonstrates a professional-grade ETL (Extract, Transform, Load) workflow developed in Python. It features automated data ingestion from multiple sources and a Slack-integrated audit system for data quality monitoring.
+This project demonstrates a professional-grade ETL (Extract, Transform, Load) workflow developed in Python and SQL. It features automated data ingestion from multiple sources and a Slack-integrated audit system for data quality monitoring.
 
 ## 🛠️ Tech Stack
 * **Language:** Python 3.10+
@@ -20,6 +20,7 @@ This project demonstrates a professional-grade ETL (Extract, Transform, Load) wo
 * **Automation:** Implemented a master `.bat` file for daily execution via Task Scheduler, ensuring consistent data updates without manual intervention.
 
 ## 📁 Project Structure
-* `/dags`: Primary Python logic for all ETL processes, including `dup_pipeline.py`.
+* `/pipeline_py`: Primary Python logic for all ETL processes, including `dup_pipeline.py`.
 * `/AI_example`: Isolated laboratory environment for experimental AI and data science learning.
+* `/statistics`: Python scripts focused on database operations and efficient data handling.
 * `run_all_pipelines.bat`: The master automation trigger.
