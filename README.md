@@ -3,8 +3,8 @@
 This project demonstrates a professional-grade ETL (Extract, Transform, Load) workflow developed in Python and SQL. It features automated data ingestion from multiple sources and a Slack-integrated audit system for data quality monitoring.
 
 ## 🛠️ Tech Stack
-* **Language:** Python 3.10+
-* **Database:** MySQL (Sakila Schema)
+* **Language:** Python 3.10+, SQL
+* **Database:** MySQL, SQLite
 * **Automation:** Windows Task Scheduler & Batch Scripting
 * **Alerting:** Slack API (Real-time notifications)
 * **Environment:** Native Windows (optimized for performance over WSL/Docker)
