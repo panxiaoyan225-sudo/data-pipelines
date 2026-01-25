@@ -11,7 +11,7 @@ from datetime import timedelta, date, datetime # Added datetime for logging
 from dateutil.relativedelta import relativedelta
 from google import genai
 import os
-from dotenv import load_dotenv # New Import
+from dotenv import load_dotenv, find_dotenv# New Import
 
 # --- APP CONFIGURATION ---
 st.set_page_config(page_title="AI Stock Predictor", layout="wide")
@@ -141,7 +141,7 @@ if ticker:
   # pip freeze > "C:\Users\ADMIN\My Drive\Python\AI_examples\requirements.txt"
         
 # directly run in Python, only acess within the network
-# python -m streamlit run "C:\Users\ADMIN\My Drive\Python\AI_examples\app.py"
+# python -m streamlit run "C:\Users\ADMIN\My Drive\Python\pipeline\AI_coding\Stock_app.py"
 
 
 # deploy in cloud run
