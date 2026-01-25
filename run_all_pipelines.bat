@@ -6,9 +6,9 @@ cd /d "C:\Users\ADMIN\My Drive\Python\pipeline"
 call .\venv\Scripts\activate
 
 :: 3. Run scripts from the NEW /dags subfolder
-python .\dags\titanic_pipeline.py
-python .\dags\ranking_pipeline.py
-python .\dags\auditor.py
-python .\dags\dup_pipelines.py
+python .\pipeline_py\titanic_pipeline.py
+python .\pipeline_py\ranking_pipeline.py
+python .\pipeline_py\auditor.py
+python .\pipeline_py\dup_pipelines.py
 
 pause
