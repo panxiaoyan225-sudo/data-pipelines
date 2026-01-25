@@ -18,6 +18,7 @@ This project demonstrates a professional-grade ETL (Extract, Transform, Load) wo
 ## 🚀 Key Improvements
 * **Performance:** Migrated from a heavy Docker/WSL/Airflow setup to a native Windows environment, reducing RAM usage by **~95%** (from 4GB+ to <200MB).
 * **Automation:** Implemented a master `.bat` file for daily execution via Task Scheduler, ensuring consistent data updates without manual intervention.
+* **Slack:** Slack-integrated audit system for data quality monitoring
 
 ## 📁 Project Structure
 * `/pipeline_py`: Primary Python logic for all ETL processes, including `dup_pipeline.py`.
