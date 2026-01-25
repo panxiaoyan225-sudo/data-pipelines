@@ -21,6 +21,14 @@ DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
 #DB_CONN = f"mysql+pymysql://root:{db_password}@localhost:3306/sakila?charset=utf8mb4"
 engine = create_engine(DB_CONN)
 
+# 1. Get the base path from .env
+# If EXPORT_PATH is missing, it defaults to the current directory ('.')
+base_path = os.getenv("EXPORT_PATH", ".")
+# 2. Combine the path with the filename
+# This creates: C:\Users\ADMIN\My Drive\Python\exports\duplicate.csv
+csv_filename = os.path.join(base_path, "duplicate.csv")
+# 3. Ensure the folder exists (important if you move to a new computer)
+os.makedirs(os.path.dirname(csv_filename), exist_ok=True)
 
 SLACK_TOKEN = os.getenv("SLACK_TOKEN")
 SLACK_CHANNEL = "#audit-alerts"
@@ -76,9 +84,9 @@ def find_all_duplicates():
             report.append(msg)
              
             # Export to CSV Log - Using a raw string (r"") for the Windows path
-            csv_filename = r"C:\Users\ADMIN\My Drive\Python\exports\duplicate.csv"
-            os.makedirs(os.path.dirname(csv_filename), exist_ok=True)
-            
+            #csv_filename = r"C:\Users\ADMIN\My Drive\Python\exports\duplicate.csv"
+         
+        
             df_duplicates.to_csv(csv_filename, index=False, mode="a", header=not os.path.exists(csv_filename))
             print(f"Success! Duplicate records exported to {csv_filename}.")
             

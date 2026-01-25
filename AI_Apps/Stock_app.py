@@ -150,8 +150,8 @@ if ticker:
 # The following code is a shell command to deploy the app to Google Cloud Run:
 #
 # gcloud run deploy stock-ai-app \
-#  --source . \
-#  --region us-central1 \
+# --source . \
+# --region us-central1 \
 #--allow-unauthenticated \
 #--set-secrets GEMINI_API_KEY=GEMINI_API_KEY:latest \
 #--clear-base-image
