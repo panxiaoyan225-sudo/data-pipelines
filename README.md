@@ -22,6 +22,5 @@ This project demonstrates a professional-grade ETL (Extract, Transform, Load) wo
 
 ## 📁 Project Structure
 * `/pipeline_py`: Primary Python logic for all ETL processes, including `dup_pipeline.py`.
-* `/AI_example`: Isolated laboratory environment for experimental AI and data science learning.
 * `/statistics`: Python scripts focused on database operations and efficient data handling.
 * `run_all_pipelines.bat`: The master automation trigger.
