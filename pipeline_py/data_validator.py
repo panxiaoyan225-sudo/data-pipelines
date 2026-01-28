@@ -37,8 +37,19 @@ def validate_titanic_data(df):
             logging.error(f"❌ {error}")
         return False, errors
 
-# Integration Example:
-# df = pd.read_csv('titanic.csv')
-# success, _ = validate_titanic_data(df)
-# if success:
-#     load_to_mysql(df)
+# --- Integration Logic ---
+if __name__ == "__main__":
+    # 1. Fetch data from a live source
+    URL = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
+    logging.info(f"Fetching data from {URL}...")
+    df = pd.read_csv(URL)
+
+    # 2. Run the validation
+    success, error_list = validate_titanic_data(df)
+
+    # 3. Action based on validation result
+    if success:
+        logging.info("Validation successful. Proceeding to load data.")
+        # load_to_mysql(df) # Ensure this function is defined elsewhere!
+    else:
+        logging.warning(f"Validation failed. {len(error_list)} issues found. Load aborted.")
