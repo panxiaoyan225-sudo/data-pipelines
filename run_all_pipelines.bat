@@ -1,9 +1,9 @@
 @echo off
 :: 1. Navigate to the main pipeline folder
-cd /d "C:\Users\ADMIN\My Drive\Python\pipeline"
+cd /d "C:\Python\pipeline"
 
-:: 2. Activate the virtual environment
-call .\venv\Scripts\activate
+:: 2. Activate the virtual environment from the NEW location
+call "C:\Python\venv\Scripts\activate"
 
 :: 3. Run scripts from the NEW /dags subfolder
 python .\pipeline_py\titanic_pipeline.py
