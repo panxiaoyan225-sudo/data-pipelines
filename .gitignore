@@ -1,5 +1,14 @@
+
+# Ignore venv and .env in any folder or subfolder
+**/venv/
+**/.env
+
+# Specific to your screenshot (optional but good practice)
+**/.streamlit/secrets.toml
+**/__pycache__/
 # 1. Ignore the heavy virtual environment inside the pipeline folder
 venv/
+
 
 # 2. Ignore Python's temporary "cache" files (they make your GitHub messy)
 **/__pycache__/
