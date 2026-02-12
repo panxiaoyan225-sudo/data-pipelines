@@ -5,6 +5,10 @@ from sqlalchemy import create_engine
 
 def get_db_connection(user, password, host, port, database):
     conn_str = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+    # The following line initializes and returns an SQLAlchemy Engine, which serves as the primary interface
+    # for connecting to and working with a SQL database (in this case, a MySQL database using pymysql).
+    # The `conn_str` includes the username, password, host, port, and database name, allowing SQLAlchemy
+    # to know how to establish the database connection.
     return create_engine(conn_str)
 
 def run_duplicate_check(engine, table, id_column):
@@ -26,6 +30,8 @@ def run_duplicate_check(engine, table, id_column):
 
         wrong_records = df[duplicate_mask].sort_values(by=id_column)
         
+        # Check if the DataFrame 'wrong_records' is not empty,
+        # meaning duplicate records have been detected in the data.
         if not wrong_records.empty:
             num_errors = len(wrong_records)
             unique_ids = wrong_records[id_column].nunique()

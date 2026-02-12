@@ -18,18 +18,20 @@ URL = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic
 
 def run_titanic_pipeline():
     print("🚢 Starting Titanic Data Flow...")
-    
-    # 1. Extract
-    df = pd.read_csv(URL)
-    
-    # 2. Transform (Simple cleanup)
-    df.columns = [c.lower() for c in df.columns] # lowercase columns
-    
-    # 3. Load
-    engine = create_engine(DB_CONN)
-    df.to_sql('raw_titanic_data', engine, if_exists='replace', index=False)
-    
-    print(f"✅ Success! Loaded {len(df)} rows into 'raw_titanic_data' table.")
+    try:
+        # 1. Extract
+        df = pd.read_csv(URL)
+        
+        # 2. Transform (Simple cleanup)
+        df.columns = [c.lower() for c in df.columns] # lowercase columns
+        
+        # 3. Load
+        engine = create_engine(DB_CONN)
+        df.to_sql('raw_titanic_data', engine, if_exists='replace', index=False)
+        
+        print(f"✅ Success! Loaded {len(df)} rows into 'raw_titanic_data' table.")
+    except Exception as e:
+        print(f"❌ Titanic pipeline failed: {e}")
 
 if __name__ == "__main__":
     run_titanic_pipeline()
