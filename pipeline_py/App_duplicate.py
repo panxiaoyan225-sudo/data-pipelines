@@ -21,11 +21,11 @@ def run_duplicate_check(engine, table, id_column):
         if id_column not in df.columns:
             print(f"❌ ERROR: {id_column} does not exist in table {table}.")
             return
-
-        duplicate_mask = df.duplicated(subset=[id_column], keep=False)
         # multi_duplicate_mask = df.duplicated(subset=['payment_id', 'amount'], keep=False)
         # Identifying 100% identical clones
         # Since subset is NOT used, it checks every column automatically
+        duplicate_mask = df.duplicated(subset=[id_column], keep=False)
+      
         #duplicate_clones = df[df.duplicated(keep=False)]
 
         wrong_records = df[duplicate_mask].sort_values(by=id_column)
@@ -34,6 +34,8 @@ def run_duplicate_check(engine, table, id_column):
         # meaning duplicate records have been detected in the data.
         if not wrong_records.empty:
             num_errors = len(wrong_records)
+            # Calculate how many unique IDs are affected by duplicates:
+            # 'nunique()' counts distinct values in the specified column of the DataFrame.
             unique_ids = wrong_records[id_column].nunique()
             
             print(f"⚠️ ERROR: Found {num_errors} duplicate records affecting {unique_ids} unique {id_column}s!")
@@ -43,6 +45,9 @@ def run_duplicate_check(engine, table, id_column):
         else:
             print(f"✅ No duplicate {id_column} found in {table}.")
     except Exception as e:
+        # This line catches any exceptions raised in the try block above and prints a user-friendly error message,
+        # including the details of the exception (e.g., connection issues, SQL errors, etc.). The "❌" symbol is 
+        # used to visually highlight the error in the console output, making it easy for a user to spot what went wrong.
         print(f"❌ Error: {e}")
 
 def main():

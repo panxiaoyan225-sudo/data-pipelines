@@ -5,6 +5,12 @@ from datetime import datetime
 import requests
 from dotenv import load_dotenv, find_dotenv
 import os
+import sys
+# Add the directory containing the file to the system path
+sys.path.append(r'C:\Python\Basic\codes')
+# Now you can import the file name (without the .py extension)
+from SLACK import send_slack_notification
+
 # 1. CONFIGURATION
 # MySQL credentials
 load_dotenv(find_dotenv())
@@ -17,11 +23,6 @@ db = os.getenv("DB_NAME")
 
 # A cleaner, more professional connection string
 DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
-
-# Your Slack Bot Token and Channel
-
-SLACK_TOKEN = os.getenv('SLACK_TOKEN')
-SLACK_CHANNEL = "#audit-alerts" 
 
 
 
@@ -36,6 +37,13 @@ def run_audit():
         print(f"\n--- Starting Audit: {datetime.now().strftime('%Y-%m-%d %H:%M')} ---")
 
         # 2. AUDIT: DUPLICATES
+        # This line checks for duplicate records in the DataFrame based on the 'payment_id' column.
+        # The pandas .duplicated('payment_id', keep=False) method returns a boolean Series that is True 
+        # for all rows that have the same value in 'payment_id' as another row (including all duplicates, not just the second occurrence).
+        # By using df[ ... ], we filter the original DataFrame to only those rows where 'payment_id' is duplicated.
+        
+        # The resulting 'duplicates' DataFrame will contain every row involved in a duplicate 'payment_id', 
+        # which can then be summarized, reported, or further analyzed.
         duplicates = df[df.duplicated('payment_id', keep=False)]
         if not duplicates.empty:
             msg = f"❌ CRITICAL: Found {len(duplicates)} duplicate payment IDs!"
@@ -63,19 +71,7 @@ def run_audit():
         print(error_msg)
         send_slack_notification(error_msg)
 
-def send_slack_notification(message):
-    url = "https://slack.com/api/chat.postMessage"
-    # Ensure token is in headers as a Bearer token
-    headers = {
-    "Authorization": f"Bearer {SLACK_TOKEN}",
-    "Content-Type": "application/json; charset=utf-8" # Added charset
-}
-    data = {
-        "channel": SLACK_CHANNEL, 
-        "text": message
-    }
-    response = requests.post(url, headers=headers, json=data)
-    print(f"Slack Response: {response.json()}")
+
 
 
 if __name__ == "__main__":
