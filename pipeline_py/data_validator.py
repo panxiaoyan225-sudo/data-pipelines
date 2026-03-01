@@ -24,6 +24,8 @@ def validate_titanic_data(df):
     try:
         # 1. Schema Check: Ensure all required columns exist
         required_cols = {'PassengerId', 'Survived', 'Pclass', 'Age', 'Fare'}
+        # This checks if any required columns are missing from the dataframe.
+        # If the set of required columns is NOT a subset of columns in df, then there are missing columns.
         if not required_cols.issubset(df.columns):
             missing = required_cols - set(df.columns)
             errors.append(f"Missing columns: {missing}")
@@ -34,7 +36,8 @@ def validate_titanic_data(df):
 
         # 3. Logic Check: Fare cannot be negative
         if 'Fare' in df.columns and (df['Fare'] < 0).any():
-            negative_count = df[df['Fare'] < 0].shape[0]
+            #negative_count = df[df['Fare'] < 0].shape[0]
+            negative_count = len(df[df['Fare'] < 0])
             errors.append(f"Validation Failure: Found {negative_count} records with negative Fares.")
 
         # 4. Completeness Check: Survived should not have nulls
