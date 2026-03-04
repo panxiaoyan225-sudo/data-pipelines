@@ -5,6 +5,8 @@ import os
 import logging
 import sys
 
+from SLACK import send_slack_notification
+
 # 1. Setup Logging to both Console and File
 log_filename = "pipeline.log"
 logging.basicConfig(
@@ -28,7 +30,19 @@ db = os.getenv("DB_NAME")
 DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
 URL = "http://universities.hipolabs.com/search?country=Canada"
 
+
+def _safe_slack_notify(message: str) -> None:
+    """Send Slack notification; log but do not raise if Slack fails."""
+    try:
+        send_slack_notification(message)
+    except Exception as slack_err:
+        logger.warning(f"Slack notification failed (pipeline continues): {slack_err}")
+
+
 def run_ranking_pipeline():
+    # Log the start of the university ranking pipeline process.
+    # This line records an informational message, so users or maintainers know when the extraction, transformation,
+    # and loading process begins. The message appears in both the console and the log file.
     logger.info("🎓 Starting University Ranking Pipeline...")
     
     try:
@@ -37,10 +51,10 @@ def run_ranking_pipeline():
         df = pd.read_json(URL)
         
         # 2. Transform
-        df = df[['name', 'state-province', 'domains', 'web_pages']]
+        df = df[['name', 'state-province', 'domains',  'country','web_pages']]
         df['domains'] = df['domains'].apply(lambda x: ', '.join(x) if isinstance(x, list) else x)
         df['web_pages'] = df['web_pages'].apply(lambda x: ', '.join(x) if isinstance(x, list) else x)
-        df.columns = ['univ_name', 'province', 'domain', 'website']
+        df.columns = ['univ_name', 'province', 'domain',  'country', 'website']
         
         # 3. Save CSV to root folder (overwrites if exists)
         csv_filename = "university_rankings.csv"
@@ -52,9 +66,11 @@ def run_ranking_pipeline():
         df.to_sql('raw_university_data', engine, if_exists='replace', index=False)
         
         logger.info(f"✅ Success! Loaded {len(df)} universities into MySQL.")
+        _safe_slack_notify(f"✅ University Ranking Pipeline Success: Loaded {len(df)} universities into MySQL.")
 
     except Exception as e:
         logger.error(f"❌ Pipeline Failed: {str(e)}")
+        _safe_slack_notify(f"❌ University Ranking Pipeline Failed: {str(e)}")
         raise
 
 if __name__ == "__main__":
