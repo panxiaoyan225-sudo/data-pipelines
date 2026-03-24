@@ -3,20 +3,11 @@ trigger:
     include:
       - main
 
-schedules:
-  - cron: "0 2 * * *"
-    displayName: "Daily run at 02:00 UTC"
-    branches:
-      include:
-        - main
-    always: true
-
 pool:
   name: 'MyLocalLaptop'
 
 variables:
   - group: 'Pipeline-Secrets'
-  # Use double backslashes and the new public path to bypass "Access is denied"
   - name: pythonPath
     value: 'C:\\Python312\\python.exe'
 
@@ -34,7 +25,8 @@ steps:
       SLACK_TOKEN=$(SLACK_TOKEN)
       EXPORT_PATH=$(Pipeline.Workspace)\exports
       "@
-      Set-Content -Path ".env" -Value $envContent -Encoding UTF8
+      # Force UTF8 encoding for the .env file as well
+      [System.IO.File]::WriteAllLines("$(Build.SourcesDirectory)\.env", $envContent, (New-Object System.Text.UTF8Encoding($false)))
     displayName: 'Create runtime .env'
 
   - script: |
@@ -49,11 +41,15 @@ steps:
       "$(pythonPath)" .\pipeline_py\ranking_pipeline.py
       "$(pythonPath)" .\pipeline_py\auditor.py
       "$(pythonPath)" .\pipeline_py\dup_pipelines.py
+    env:
+      # This line fixes the 'charmap' codec error in image_fec2ca.png
+      PYTHONUTF8: 1
     displayName: 'Run ETL Scripts'
 
   - script: |
       "$(pythonPath)" .\pipeline_py\SLACK.py
     env:
       SLACK_TOKEN: $(SLACK_TOKEN)
+      PYTHONUTF8: 1
     displayName: 'Notify Slack on Failure'
     condition: failed()
