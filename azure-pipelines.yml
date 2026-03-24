@@ -17,31 +17,20 @@ schedules:
     always: true
 
 pool:
-  name: "MyLocalLaptop" # Change to your self-hosted Windows pool name if different
+  name: "MyLocalLaptop" 
   demands:
     - Agent.OS -equals Windows_NT
 
 variables:
-  - group: "Pipeline-Secrets" # The name you gave the Variable Group in the Library
-  - name: pythonVersion
-    value: "3.12"
+  - group: "Pipeline-Secrets"
+  - name: venvPath
+    value: "C:\Python\venv\Scripts\python.exe"
 
 steps:
   - checkout: self
     clean: true
 
-  - task: UsePythonVersion@0
-    displayName: "Use Python $(pythonVersion)"
-    inputs:
-      versionSpec: "$(pythonVersion)"
-      addToPath: true
-      architecture: "x64"
-
-  - script: |
-      python -m pip install --upgrade pip
-      pip install -r requirements.txt
-    displayName: "Install dependencies"
-
+  # 1. Create the .env file FIRST so the scripts can read it
   - powershell: |
       $envContent = @"
       DB_USER=$(DB_USER)
@@ -55,20 +44,29 @@ steps:
       Set-Content -Path ".env" -Value $envContent -Encoding UTF8
     displayName: "Create runtime .env from Azure variables"
 
+  # 2. Prepare the export folder
   - powershell: |
-      New-Item -ItemType Directory -Force -Path "$(Pipeline.Workspace)\exports" | Out-Null
+      if (!(Test-Path "$(Pipeline.Workspace)\exports")) {
+          New-Item -ItemType Directory -Force -Path "$(Pipeline.Workspace)\exports"
+      }
     displayName: "Prepare export directory"
 
+  # 3. Update dependencies in your specific venv
   - script: |
-      python .\pipeline_py\titanic_pipeline.py
-      python .\pipeline_py\ranking_pipeline.py
-      python .\pipeline_py\auditor.py
-      python .\pipeline_py\dup_pipelines.py
+      $(venvPath) -m pip install --upgrade pip
+      $(venvPath) -m pip install -r requirements.txt
+    displayName: "Update venv dependencies"
+
+  # 4. Run your ETL scripts using the venv
+  - script: |
+      $(venvPath) .\pipeline_py\titanic_pipeline.py
+      $(venvPath) .\pipeline_py\ranking_pipeline.py
+      $(venvPath) .\pipeline_py\auditor.py
+      $(venvPath) .\pipeline_py\dup_pipelines.py
     displayName: "Run ETL and audit scripts"
 
-# --- Notification Step ---
+  # 5. Notify Slack only if things fail
   - script: |
-      python .\pipeline_py\SLACK.py
+      $(venvPath) .\pipeline_py\SLACK.py
     displayName: "Notify Slack on Failure"
     condition: failed()
-    
