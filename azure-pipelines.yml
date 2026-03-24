@@ -30,7 +30,6 @@ steps:
   - checkout: self
     clean: true
 
-  # 1. Create the .env file FIRST so the scripts can read it
   - powershell: |
       $envContent = @"
       DB_USER=$(DB_USER)
@@ -44,20 +43,17 @@ steps:
       Set-Content -Path ".env" -Value $envContent -Encoding UTF8
     displayName: "Create runtime .env from Azure variables"
 
-  # 2. Prepare the export folder
   - powershell: |
       if (!(Test-Path "$(Pipeline.Workspace)\exports")) {
           New-Item -ItemType Directory -Force -Path "$(Pipeline.Workspace)\exports"
       }
     displayName: "Prepare export directory"
 
-  # 3. Update dependencies in your specific venv
   - script: |
       $(venvPath) -m pip install --upgrade pip
       $(venvPath) -m pip install -r requirements.txt
     displayName: "Update venv dependencies"
 
-  # 4. Run your ETL scripts using the venv
   - script: |
       $(venvPath) .\pipeline_py\titanic_pipeline.py
       $(venvPath) .\pipeline_py\ranking_pipeline.py
@@ -65,7 +61,6 @@ steps:
       $(venvPath) .\pipeline_py\dup_pipelines.py
     displayName: "Run ETL and audit scripts"
 
-  # 5. Notify Slack only if things fail
   - script: |
       $(venvPath) .\pipeline_py\SLACK.py
     displayName: "Notify Slack on Failure"
