@@ -16,9 +16,9 @@ pool:
 
 variables:
   - group: 'Pipeline-Secrets'
-  # Pointing directly to your discovered 3.12 path to bypass registry errors
+  # Use double backslashes and the new public path to bypass "Access is denied"
   - name: pythonPath
-    value: 'C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\python.exe'
+    value: 'C:\\Python312\\python.exe'
 
 steps:
   - checkout: self
@@ -42,7 +42,7 @@ steps:
       if exist requirements.txt (
           "$(pythonPath)" -m pip install -r requirements.txt
       )
-    displayName: 'Install dependencies using local Python 3.12'
+    displayName: 'Install dependencies'
 
   - script: |
       "$(pythonPath)" .\pipeline_py\titanic_pipeline.py
