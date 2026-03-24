@@ -65,3 +65,10 @@ steps:
       python .\pipeline_py\auditor.py
       python .\pipeline_py\dup_pipelines.py
     displayName: "Run ETL and audit scripts"
+
+# --- Notification Step ---
+  - script: |
+      python .\pipeline_py\SLACK.py
+    displayName: "Notify Slack on Failure"
+    condition: failed()
+    
