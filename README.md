@@ -32,3 +32,23 @@ The framework orchestrates data through four specialized layers:
 * `/statistics`: Scripts focused on database operations and efficient data handling.
 * `run_all_pipelines.bat`: The master automation trigger.
 * `data_validator.py`: The validation engine for automated DQ checks.
+
+## Azure DevOps CI/CD
+The project includes `azure-pipelines.yml` for self-hosted Windows execution with:
+- push trigger on `main`
+- PR trigger on `main`
+- scheduled trigger (daily at 02:00 UTC)
+
+### Required Azure Pipeline Variables
+Create these variables in Azure DevOps Pipeline or Variable Group:
+- `DB_USER`
+- `DB_PASS` (mark as secret)
+- `DB_HOST`
+- `DB_PORT`
+- `DB_NAME`
+- `SLACK_TOKEN` (mark as secret)
+
+The pipeline writes a runtime `.env` file from these values, so existing `python-dotenv` usage continues to work without committing secrets.
+
+### Local setup reference
+Use `env.example` as the template for local `.env`.
