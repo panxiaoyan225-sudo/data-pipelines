@@ -24,7 +24,7 @@ pool:
 variables:
   - group: "Pipeline-Secrets"
   - name: venvPath
-    value: "C:\Python\venv\Scripts\python.exe"
+    value: C:\Python\venv\Scripts\python.exe
 
 steps:
   - checkout: self
