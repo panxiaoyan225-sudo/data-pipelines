@@ -16,17 +16,13 @@ pool:
 
 variables:
   - group: 'Pipeline-Secrets'
+  # Pointing directly to your discovered 3.12 path to bypass registry errors
+  - name: pythonPath
+    value: 'C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\python.exe'
 
 steps:
   - checkout: self
     clean: true
-
-  # Changed from 3.11 to 3.12 to match your requirement
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.12'
-      addToPath: true
-    displayName: 'Set Python Version to 3.12'
 
   - powershell: |
       $envContent = @"
@@ -39,30 +35,24 @@ steps:
       EXPORT_PATH=$(Pipeline.Workspace)\exports
       "@
       Set-Content -Path ".env" -Value $envContent -Encoding UTF8
-    displayName: 'Create runtime .env from Azure variables'
-
-  - powershell: |
-      if (!(Test-Path "$(Pipeline.Workspace)\exports")) {
-          New-Item -ItemType Directory -Force -Path "$(Pipeline.Workspace)\exports"
-      }
-    displayName: 'Prepare export directory'
+    displayName: 'Create runtime .env'
 
   - script: |
-      python -m pip install --upgrade pip
+      "$(pythonPath)" -m pip install --upgrade pip
       if exist requirements.txt (
-          pip install -r requirements.txt
+          "$(pythonPath)" -m pip install -r requirements.txt
       )
-    displayName: 'Install dependencies'
+    displayName: 'Install dependencies using local Python 3.12'
 
   - script: |
-      python .\pipeline_py\titanic_pipeline.py
-      python .\pipeline_py\ranking_pipeline.py
-      python .\pipeline_py\auditor.py
-      python .\pipeline_py\dup_pipelines.py
-    displayName: 'Run ETL and audit scripts'
+      "$(pythonPath)" .\pipeline_py\titanic_pipeline.py
+      "$(pythonPath)" .\pipeline_py\ranking_pipeline.py
+      "$(pythonPath)" .\pipeline_py\auditor.py
+      "$(pythonPath)" .\pipeline_py\dup_pipelines.py
+    displayName: 'Run ETL Scripts'
 
   - script: |
-      python .\pipeline_py\SLACK.py
+      "$(pythonPath)" .\pipeline_py\SLACK.py
     env:
       SLACK_TOKEN: $(SLACK_TOKEN)
     displayName: 'Notify Slack on Failure'
