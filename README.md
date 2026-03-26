@@ -1,48 +1,55 @@
 # Multi-Source Data Engineering Framework & AI Auditor
 
-Technical implementations of automated data workflows and processing pipelines designed for high-reliability data environments. This framework bridges the gap between **Data Engineering efficiency** and **Data Science rigor** through two distinct execution paradigms: **Legacy Local Automation** for zero-overhead desktop tasks and **Modern CI/CD** for production-grade, self-hosted orchestration.
+Technical implementations of automated data workflows and processing pipelines designed for high-reliability data environments. This framework bridges the gap between **Data Engineering efficiency** and **Data Science rigor** through three distinct execution paradigms: **Legacy Local Automation** for zero-overhead tasks, and **Multi-Platform CI/CD** (Azure & GitHub) for production-grade orchestration.
 
 ## 🎯 Project Philosophy: From Local to CI/CD
-Most modern pipelines are over-engineered with heavy dependencies. This project demonstrates a **high-performance, low-footprint architecture** optimized for native environments. By migrating from heavy Docker/WSL/Airflow setups to a native Windows environment—and eventually to a structured **Azure DevOps CI/CD pipeline**—I achieved a **95% reduction in RAM overhead** (from 4GB+ to <200MB) while maintaining production-grade reliability and real-time monitoring.
+Most modern pipelines are over-engineered with heavy dependencies. This project demonstrates a **high-performance, low-footprint architecture** optimized for native environments. By migrating from heavy Docker/WSL setups to a native Windows environment—and orchestrating via **Azure DevOps** and **GitHub Actions**—I achieved a **95% reduction in RAM overhead** (from 4GB+ to <200MB) while maintaining real-time monitoring.
 
-The framework proves that reliability doesn't require high resource costs; it requires precise orchestration, whether via **Windows Task Scheduler** for local agility or **Azure Pipelines** for automated, secret-managed deployment.
+The framework proves that reliability doesn't require high resource costs; it requires precise orchestration, whether via **Windows Task Scheduler** for local agility or **Cloud-Managed Workflows** for automated, secret-managed deployment.
 
 ---
 
 ## 🏗️ System Architecture
 The framework orchestrates data through four specialized layers:
 1. **Ingestion Layer:** Multi-protocol support for REST APIs (JSON) and legacy flat files (CSV).
-2. **Validation Layer (The Gatekeeper):** A custom Data Quality suite (`data_validator.py`) that enforces schema integrity and logical consistency before database commits.
-3. **Persistence Layer:** Structured relational storage using MySQL.
+2. **Validation Layer (The Gatekeeper):** A custom Data Quality suite (`data_validator.py`) that enforces schema integrity and logical consistency.
+3. **Persistence Layer:** Structured relational storage using MySQL (`sakila` and custom schemas).
 4. **Audit & Alerting:** A Slack-integrated monitoring system that detects statistical anomalies and pushes real-time notifications.
-
----
-
-## 🔄 The Pipelines
-* **University Intelligence Pipeline:** Consumes nested JSON from REST APIs, transforming complex nested lists into relational strings and optimized SQL tables.
-* **Titanic Historical Flow:** Ingests raw passenger data from public CSV sources into MySQL, featuring automated handling of missing values for historical analysis.
-* **Data Quality Validator:** A specialized script (`data_validator.py`) that acts as a pre-load gatekeeper, checking for data types, range constraints, and schema drifts.
-* **Automated Data Auditor:** Monitors transaction tables (e.g., `sakila.payment`) for anomalies like high-value payments, sending instant alerts via the Slack API.
-* **Duplicate Detection System:** A data integrity script (`dup_pipeline.py`) that scans ingested datasets for redundant records, ensuring a "Single Source of Truth".
 
 ---
 
 ## 🚀 Orchestration & Deployment Methods
 
-This framework supports two distinct deployment patterns:
-
-### 1. Legacy Method: Windows Task Scheduler & Batch
+### 1. Legacy Method: Windows Task Scheduler
 The original implementation utilizes native Windows tools to minimize background resource consumption.
 * **Trigger:** A master `run_all_pipelines.bat` script handles the execution sequence.
-* **Scheduler:** Windows Task Scheduler triggers the batch file at defined intervals.
-* **Execution:** Runs locally under the user's security context.
-* **Best For:** Low-complexity, single-user desktop environments where overhead must be near zero.
+* **Execution:** Scheduled local execution under the user's security context.
 
-### 2. Modern Method: Azure DevOps CI/CD (Self-Hosted)
-The current production implementation uses an `azure-pipelines.yml` configuration with a self-hosted agent named `MyLocalLaptop`.
-* **Triggers:**
-    * **CI:** Automatic runs triggered by every `push` or `PR` to the `main` branch.
-    * **Scheduled:** Daily automated execution at 02:00 UTC via Cron.
-* **Security:** Secrets (DB credentials, Slack tokens) are managed in Azure DevOps **Variable Groups** (`Pipeline-Secrets`) and injected at runtime into a secure `.env` file.
-* **Environment:** Configured to use a dedicated public Python path (`C:\Python312`) to bypass Windows user-profile permission restrictions and solve "Access is denied" errors.
-* **Encoding:** Implements `PYTHONUTF8: 1` to ensure special characters (emojis/audit symbols) render correctly across
+### 2. Enterprise Method: Azure DevOps CI/CD
+The first production migration used `azure-pipelines.yml` with a self-hosted agent.
+* **Security:** Secrets managed in **Variable Groups** (`Pipeline-Secrets`).
+* **Environment:** Optimized to bypass Windows user-profile permission restrictions.
+
+### 3. Modern Method: GitHub Actions (Self-Hosted Service)
+The current implementation utilizes GitHub Actions for decentralized automation.
+* **Runner Architecture:** Implemented a **self-hosted runner** configured as a **Windows Service** (`MyLocalLaptop`) for 99.9% availability without manual terminal sessions.
+* **Secret Management:** Individual encryption of sensitive credentials (DB_PASS, SLACK_TOKEN) via **GitHub Repository Secrets**.
+* **Reliability Engineering:** * Implemented `PYTHONUTF8: 1` environment variables to ensure data integrity during audit log generation.
+    * Uses a dedicated directory (`C:\actions-runner`) to separate CI/CD orchestration from core Windows system files, ensuring stable execution.
+
+---
+
+## 🔄 Featured Pipelines
+* **University Intelligence Pipeline:** Consumes nested JSON from REST APIs, transforming complex data into optimized SQL tables.
+* **Data Quality Validator:** A specialized script (`data_validator.py`) acting as a pre-load gatekeeper for schema integrity.
+* **Automated Data Auditor:** Monitors transaction tables for anomalies, sending instant alerts via the Slack API.
+* **Duplicate Detection System:** A data integrity script (`dup_pipeline.py`) ensuring a "Single Source of Truth".
+
+---
+
+## 🛠️ Technical Stack
+* **Languages:** Python (ETL, Audit, Alerting)
+* **Databases:** MySQL (Relational Storage)
+* **DevOps:** GitHub Actions, Azure DevOps, YAML, PowerShell
+* **Monitoring:** Slack API Integration
+* **Environment:** Windows Native (Self-Hosted Runners)
