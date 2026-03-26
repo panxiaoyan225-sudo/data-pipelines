@@ -1,0 +1,62 @@
+name: Data Pipeline ETL
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Daily run at 02:00 UTC (Matches your Azure cron)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allows you to run it manually from the GitHub UI
+
+jobs:
+  run-etl:
+    # This tells GitHub to run on your local laptop runner
+    runs-on: self-hosted
+
+    env:
+      # Direct path to your public Python install
+      PYTHON_EXE: 'C:\Python312\python.exe'
+      PYTHONUTF8: 1
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create runtime .env
+        shell: pwsh
+        run: |
+          $envContent = @"
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASS=${{ secrets.DB_PASS }}
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          SLACK_TOKEN=${{ secrets.SLACK_TOKEN }}
+          EXPORT_PATH=${{ github.workspace }}\exports
+          "@
+          [System.IO.File]::WriteAllLines("${{ github.workspace }}\.env", $envContent, (New-Object System.Text.UTF8Encoding($false)))
+
+      - name: Install dependencies
+        shell: cmd
+        run: |
+          "${{ env.PYTHON_EXE }}" -m pip install --upgrade pip
+          if exist requirements.txt (
+              "${{ env.PYTHON_EXE }}" -m pip install -r requirements.txt
+          )
+
+      - name: Run ETL Scripts
+        shell: cmd
+        run: |
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\titanic_pipeline.py
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\ranking_pipeline.py
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\auditor.py
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\dup_pipelines.py
+
+      - name: Notify Slack on Failure
+        if: failure()
+        shell: cmd
+        run: |
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\SLACK.py
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
