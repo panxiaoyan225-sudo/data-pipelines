@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create runtime .env
-        shell: pwsh
+        shell: powershell
         run: |
           $envContent = @"
           DB_USER=${{ secrets.DB_USER }}
