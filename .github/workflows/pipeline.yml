@@ -5,9 +5,9 @@ on:
     branches:
       - main
   schedule:
-    # Daily run at 02:00 UTC (Matches your Azure cron)
-    - cron: '0 2 * * *'
-  workflow_dispatch: # Allows you to run it manually from the GitHub UI
+    # Daily run at 07:00 AM Ottawa (11:00 UTC)
+    - cron: '0 11 * * *'
+  workflow_dispatch: # Keep this so you can still run it manually
 
 jobs:
   run-etl:
