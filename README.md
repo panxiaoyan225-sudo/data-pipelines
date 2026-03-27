@@ -3,7 +3,7 @@
 Technical implementations of automated data workflows and processing pipelines designed for high-reliability data environments. This framework bridges the gap between **Data Engineering efficiency** and **Data Science rigor** through three distinct execution paradigms: **Legacy Local Automation** for zero-overhead tasks, and **Multi-Platform CI/CD** (Azure & GitHub) for production-grade orchestration.
 
 ## 🎯 Project Philosophy: From Local to CI/CD
-Most modern pipelines are over-engineered with heavy dependencies. This project demonstrates a **high-performance, low-footprint architecture** optimized for native environments. By migrating from heavy Docker/WSL setups to a native Windows environment—and orchestrating via **Azure DevOps** and **GitHub Actions**—I achieved a **95% reduction in RAM overhead** (from 4GB+ to <200MB) while maintaining real-time monitoring.
+This project demonstrates a **high-performance, low-footprint architecture** optimized for native environments. By migrating from heavy Docker/WSL setups to a native Windows environment—and orchestrating via **Azure DevOps** and **GitHub Actions**—I achieved a **95% reduction in RAM overhead** (from 4GB+ to <200MB) while maintaining real-time monitoring.
 
 The framework proves that reliability doesn't require high resource costs; it requires precise orchestration, whether via **Windows Task Scheduler** for local agility or **Cloud-Managed Workflows** for automated, secret-managed deployment.
 
