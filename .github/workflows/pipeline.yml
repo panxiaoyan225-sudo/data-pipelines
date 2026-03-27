@@ -5,8 +5,8 @@ on:
     branches:
       - main
   schedule:
-    # Daily run at 09:00 AM Ottawa (13:00 UTC)
-    - cron: '0 13 * * *'
+    # Daily run at 09:05 AM Ottawa (13:05 UTC)
+    - cron: '5 13 * * *'
   workflow_dispatch: # Keep this so you can still run it manually
 
 jobs:
