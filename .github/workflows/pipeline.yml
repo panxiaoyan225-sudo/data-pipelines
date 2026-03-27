@@ -12,7 +12,7 @@ on:
 jobs:
   run-etl:
     # This tells GitHub to run on your local laptop runner
-    runs-on: self-hosted
+    runs-on: [self-hosted, MyLocalLaptop]
 
     env:
       # Direct path to your public Python install
