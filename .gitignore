@@ -14,6 +14,8 @@ venv/
 **/__pycache__/
 *.pyc
 
+**/pipeline.log
+
 # 3. Ignore local system files
 .DS_Store
 Thumbs.db
