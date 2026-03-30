@@ -46,8 +46,18 @@ steps:
       PYTHONUTF8: 1
     displayName: 'Run ETL Scripts'
 
+  # --- NEW: SUCCESS NOTIFICATION ---
   - script: |
-      "$(pythonPath)" .\pipeline_py\SLACK.py
+      "$(pythonPath)" .\pipeline_py\SLACK.py "✅ ETL Pipeline Completed Successfully! All data models updated."
+    env:
+      SLACK_TOKEN: $(SLACK_TOKEN)
+      PYTHONUTF8: 1
+    displayName: 'Notify Slack on Success'
+    condition: succeeded()
+
+  # --- EXISTING: FAILURE NOTIFICATION ---
+  - script: |
+      "$(pythonPath)" .\pipeline_py\SLACK.py "🔴 ETL Pipeline Failed! Check the Azure DevOps logs for details."
     env:
       SLACK_TOKEN: $(SLACK_TOKEN)
       PYTHONUTF8: 1
