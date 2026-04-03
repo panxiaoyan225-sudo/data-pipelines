@@ -1,5 +1,5 @@
 # Multi-Source Data Engineering Framework & AI Auditor
-[🚀 View Interactive Data Pipeline Infographic](https://panxiaoyan225-sudo.github.io/Data_Pipeline_Project/data_infographic.html)
+[🚀 View Interactive Data Pipeline Infographic](https://panxiaoyan225-sudo.github.io/data-pipelines/data_infographic.html)
 
 Technical implementations of automated data workflows and processing pipelines designed for high-reliability data environments. This framework bridges the gap between **Data Engineering efficiency** and **Data Science rigor** through three distinct execution paradigms: **Legacy Local Automation** for zero-overhead tasks, and **Multi-Platform CI/CD** (Azure & GitHub) for production-grade orchestration.
 
