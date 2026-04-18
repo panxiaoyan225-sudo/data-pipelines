@@ -8,7 +8,7 @@ This project demonstrates a **high-performance, low-footprint architecture** opt
 
 The framework proves that reliability doesn't require high resource costs; it requires precise orchestration, whether via **Windows Task Scheduler** for local agility or **Cloud-Managed Workflows** for automated, secret-managed deployment.
 
----
+----
 
 ## 🏗️ System Architecture
 The framework orchestrates data through four specialized layers:

@@ -21,7 +21,7 @@ DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
 #DB_CONN = f"mysql+pymysql://root:{db_password}@localhost:3306/sakila?charset=utf8mb4"
 engine = create_engine(DB_CONN)
 
-# 1. Get the base path from .env
+# Get base path from .env
 # If EXPORT_PATH is missing, it defaults to the current directory ('.')
 base_path = os.getenv("EXPORT_PATH", ".")
 # 2. Combine the path with the filename
@@ -70,7 +70,7 @@ def find_all_duplicates():
     ORDER BY a.payment_id;
     """
 
-    print("🔎 Auditing the entire table (no LIMIT)...")
+    print("[AUDIT] Auditing the entire table (no LIMIT)...")
     
     try:
         with engine.connect() as conn:
