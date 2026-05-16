@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv, find_dotenv
 import requests
@@ -33,50 +33,23 @@ os.makedirs(os.path.dirname(csv_filename), exist_ok=True)
 SLACK_TOKEN = os.getenv("SLACK_TOKEN")
 SLACK_CHANNEL = "#audit-alerts"
 report = []
-
 # 2. SLACK UTILITY
-def send_slack_notification(message):
-    url = "https://slack.com/api/chat.postMessage"
-    headers = {
-        "Authorization": f"Bearer {SLACK_TOKEN}",
-        "Content-Type": "application/json; charset=utf-8"
-    }
-    payload = {
-        "channel": SLACK_CHANNEL, 
-        "text": message
-    }
-    
-    try:
-        response = requests.post(url, headers=headers, json=payload)
-        response_json = response.json()
-        if response_json.get("ok"):
-            print("🚀 Slack notification sent successfully!")
-        else:
-            print(f"❌ Slack Error: {response_json.get('error')}")
-    except Exception as e:
-        print(f"❌ Failed to connect to Slack: {e}")
+# Import send_slack_notification from SLACK.py instead of redefining it
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+from SLACK import send_slack_notification
+   
 
 # 3. AUDIT LOGIC
 def find_all_duplicates():
-    query = """
-    SELECT a.*
-    FROM mypayment a
-    JOIN (
-        SELECT payment_id, amount
-        FROM mypayment
-        GROUP BY payment_id, amount
-        HAVING COUNT(*) > 1
-    ) b ON a.payment_id = b.payment_id AND a.amount = b.amount
-    ORDER BY a.payment_id;
-    """
-
     print("[AUDIT] Auditing the entire table (no LIMIT)...")
-    
+
     try:
         with engine.connect() as conn:
-            result = conn.execute(text(query))
-            # result.keys() provides the column names for the DataFrame
-            df_duplicates = pd.DataFrame(result.fetchall(), columns=result.keys())
+            df = pd.read_sql("SELECT * FROM mypayment", conn)
+
+        dup_mask = df.duplicated(subset=["payment_id", "amount"], keep=False)
+        df_duplicates = df[dup_mask].sort_values("payment_id")
 
         if not df_duplicates.empty:
             msg = f"⚠️ Found {len(df_duplicates)} duplicate records in total."
@@ -86,9 +59,9 @@ def find_all_duplicates():
             # Export to CSV Log - Using a raw string (r"") for the Windows path
             #csv_filename = r"C:\Users\ADMIN\My Drive\Python\exports\duplicate.csv"
          
-        
+
             df_duplicates.to_csv(csv_filename, index=False, mode="a", header=not os.path.exists(csv_filename))
-            print(f"Success! Duplicate records exported to {csv_filename}.")
+            print(f"Success!  {len(df_duplicates)}  Duplicate records exported to {csv_filename}.")
             
             # Send alert to Slack
             send_slack_notification(msg)

@@ -57,15 +57,21 @@ def run_ranking_pipeline():
         df.columns = ['univ_name', 'province', 'domain',  'country', 'website']
         
         # 3. Save CSV to root folder (overwrites if exists)
-        csv_filename = "university_rankings.csv"
+        # If EXPORT_PATH is missing, it defaults to the current directory ('.')
+        base_path = os.getenv("EXPORT_PATH", ".")
+        # 2. Combine the path with the filename
+        # This creates: C:\Users\ADMIN\My Drive\Python\exports\duplicate.csv
+        csv_filename = os.path.join(base_path, "university_rankings.csv")
+
         df.to_csv(csv_filename, index=False)
-        logger.info(f"💾 CSV saved locally as {csv_filename}")
+        logger.info(f"💾 CSV saved at { base_path} as {csv_filename}")
         
         # 4. Load to MySQL
         engine = create_engine(DB_CONN)
         df.to_sql('raw_university_data', engine, if_exists='replace', index=False)
         
-        logger.info(f"✅ Success! Loaded {len(df)} universities into MySQL.")
+        logger.info(f"✅ Success! Loaded {df.shape[0]} universities into MySQL.")
+   
         _safe_slack_notify(f"✅ University Ranking Pipeline Success: Loaded {len(df)} universities into MySQL.")
 
     except Exception as e:
