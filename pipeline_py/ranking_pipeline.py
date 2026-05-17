@@ -59,8 +59,7 @@ def run_ranking_pipeline():
         base_path = os.getenv("EXPORT_PATH", ".")
         
         # FIX: Appending 'exports' to your base path dynamically
-        export_dir = os.path.join(base_path, "exports")
-        csv_filename = os.path.join(export_dir, "university_rankings.csv")
+        csv_filename = os.path.join(base_path, "university_rankings.csv")
 
         # FIX: Ensure the target directory structure exists on the GitHub Runner
         os.makedirs(export_dir, exist_ok=True)
