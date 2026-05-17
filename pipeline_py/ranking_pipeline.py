@@ -62,7 +62,7 @@ def run_ranking_pipeline():
         csv_filename = os.path.join(base_path, "university_rankings.csv")
 
         # FIX: Ensure the target directory structure exists on the GitHub Runner
-        os.makedirs(export_dir, exist_ok=True)
+        os.makedirs(base_path, exist_ok=True)
 
         # Save CSV
         df.to_csv(csv_filename, index=False)
