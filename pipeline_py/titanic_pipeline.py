@@ -44,7 +44,7 @@ def run_titanic_pipeline():
 
         # Task 2 success message
         print(
-            f"✅ Success! Loaded {len(df)} rows in export folder and Mysql as 'raw_titanic_data' table."
+            f"✅ Success! Loaded {len(df)} rows in export folder: {EXPORT_FILE} and Mysql as 'raw_titanic_data' table."
         )
        
         # Task 3 Slack success alert
