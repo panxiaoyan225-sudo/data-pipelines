@@ -33,7 +33,7 @@ jobs:
           DB_PORT=${{ secrets.DB_PORT }}
           DB_NAME=${{ secrets.DB_NAME }}
           SLACK_TOKEN=${{ secrets.SLACK_TOKEN }}
-          EXPORT_PATH=${{ github.workspace }}\exports
+          EXPORT_PATH: ${{ secrets.EXPORT_PATH }} # <-- Crucial addition
           "@
           [System.IO.File]::WriteAllLines("${{ github.workspace }}\.env", $envContent, (New-Object System.Text.UTF8Encoding($false)))
 

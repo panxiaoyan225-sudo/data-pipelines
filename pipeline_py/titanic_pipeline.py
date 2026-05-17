@@ -18,7 +18,6 @@ db = os.getenv("DB_NAME")
 DB_CONN = f"mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8mb4"
 URL = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
 
-# Local export config
 EXPORT_DIR = r"C:\Python\export"
 EXPORT_FILE = os.path.join(EXPORT_DIR, "raw_titanic_data.csv")
 
@@ -37,6 +36,9 @@ def run_titanic_pipeline():
         df.to_sql("raw_titanic_data", engine, if_exists="replace", index=False)
 
         # 4. Save to local export folder (overwrite if exists)
+        # Local export config
+       
+
         os.makedirs(EXPORT_DIR, exist_ok=True)
         df.to_csv(EXPORT_FILE, index=False)
 

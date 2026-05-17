@@ -1,9 +1,9 @@
+import os
+import sys
+import logging
 import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv, find_dotenv
-import os
-import logging
-import sys
 
 from SLACK import send_slack_notification
 
@@ -41,8 +41,6 @@ def _safe_slack_notify(message: str) -> None:
 
 def run_ranking_pipeline():
     # Log the start of the university ranking pipeline process.
-    # This line records an informational message, so users or maintainers know when the extraction, transformation,
-    # and loading process begins. The message appears in both the console and the log file.
     logger.info("🎓 Starting University Ranking Pipeline...")
     
     try:
@@ -56,15 +54,20 @@ def run_ranking_pipeline():
         df['web_pages'] = df['web_pages'].apply(lambda x: ', '.join(x) if isinstance(x, list) else x)
         df.columns = ['univ_name', 'province', 'domain',  'country', 'website']
         
-        # 3. Save CSV to root folder (overwrites if exists)
-        # If EXPORT_PATH is missing, it defaults to the current directory ('.')
+        # 3. Handle Export Paths & Directories
+        # Fallback to current directory if EXPORT_PATH secret isn't provided
         base_path = os.getenv("EXPORT_PATH", ".")
-        # 2. Combine the path with the filename
-        # This creates: C:\Users\ADMIN\My Drive\Python\exports\duplicate.csv
-        csv_filename = os.path.join(base_path, "university_rankings.csv")
+        
+        # FIX: Appending 'exports' to your base path dynamically
+        export_dir = os.path.join(base_path, "exports")
+        csv_filename = os.path.join(export_dir, "university_rankings.csv")
 
+        # FIX: Ensure the target directory structure exists on the GitHub Runner
+        os.makedirs(export_dir, exist_ok=True)
+
+        # Save CSV
         df.to_csv(csv_filename, index=False)
-        logger.info(f"💾 CSV saved at { base_path} as {csv_filename}")
+        logger.info(f"💾 CSV saved successfully at: {csv_filename}")
         
         # 4. Load to MySQL
         engine = create_engine(DB_CONN)
