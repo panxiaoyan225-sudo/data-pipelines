@@ -18,15 +18,18 @@ def get_api_data():
     }
 
     try:
-        # 3. sending the request with a timeout
+        # 3. Executing the Web Call with a Network Timeout :sending the request with a timeout
+        #If the web server threw an error (like 404 Not Found or 500 Internal Server Error), 
+        # this line immediately halts the script and throws an exception rather than passing corrupted or empty data down the line.
         response = requests.get(api_url, headers=headers, timeout=10)
         
-        # 4. robust error handling (raises an HTTPError if status is 4xx or 5xx)
+        # 4. The Validation Gatekeeper :robust error handling (raises an HTTPError if status is 4xx or 5xx)
         response.raise_for_status()
         
-        # Parse the JSON response
+        # Parse the JSON response:Turning Raw Payload into Python Data
         # Parse the response content as JSON and assign it to the variable 'data'
         data = response.json()
+        #the data is stored in your computer's temporary volatile memory (RAM), specifically inside a Python variable named data.
  
         print(f"✅ Success! Successfully retrieved {len(data)} records.")
         return data

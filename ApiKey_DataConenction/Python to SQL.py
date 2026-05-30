@@ -41,11 +41,15 @@ def ingest_data_to_db(data_records):
             (item.get('id'), item.get('userId'), item.get('title'), item.get('body')) 
             for item in data_records
         ]
-        
+        # Here Writing to Permanent Storage (Disk)
         cursor.executemany(insert_query, batch_data)
         
         # 4. Commit transactions explicitly
+        # execute(): Pushes the data from Python's RAM variable into the database engine's temporary buffer.
         connection.commit()
+        #commit(): This is the ultimate step. 
+        # It tells the operating system to safely write those records down onto your physical hard drive inside the practice_warehouse.db file.
+        # Once committed, the data is completely safe, permanent, a
         print(f"✅ Database Ingestion Complete. {cursor.rowcount} rows merged into '{db_name}'.")
 
     except Exception as db_err:
