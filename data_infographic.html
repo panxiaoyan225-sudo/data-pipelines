@@ -70,4 +70,166 @@
             </div>
             <div class="premium-card bg-gradient-to-b from-emerald-50/30 to-white border-t-2 border-emerald-500">
                 <div class="kpi-value text-emerald-600">&lt;200MB</div>
-                <p class="
+                <p class="text-slate-800 font-bold uppercase tracking-wider text-[11px] mt-2">Runtime Footprint</p>
+                <p class="text-xs text-slate-400 mt-1 leading-relaxed">Optimized for Self-Hosted Execution</p>
+            </div>
+            <div class="premium-card bg-gradient-to-b from-slate-50 to-white border-t-2 border-slate-800">
+                <div class="kpi-value text-slate-900">99.9%</div>
+                <p class="text-slate-800 font-bold uppercase tracking-wider text-[11px] mt-2">Pipeline Availability</p>
+                <p class="text-xs text-slate-400 mt-1 leading-relaxed">Decentralized GitHub Service Orchestration</p>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        
+            <div class="premium-card lg:col-span-7 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 tracking-tight">The Architecture Stack</h3>
+                    <p class="text-sm text-slate-400 mt-1 mb-6">Evaluating operational distribution from ingestion to persistence.</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="stackChart"></canvas>
+                    </div>
+                </div>
+                                
+                <div class="mt-6 pt-4 border-t border-slate-100 grid grid-cols-2 gap-4">
+                    <div class="flex items-start space-x-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-800 mt-1 shrink-0"></span>
+                        <span class="text-xs text-slate-500 leading-normal"><strong>Ingestion:</strong> REST APIs & Legacy CSV Integration.</span>
+                    </div>
+                    <div class="flex items-start space-x-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 mt-1 shrink-0"></span>
+                        <span class="text-xs text-slate-500 leading-normal"><strong>Validation:</strong> Custom Logical Integrity Gateways.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card lg:col-span-5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 tracking-tight mb-1">Orchestration Evolution</h3>
+                    <p class="text-sm text-slate-400 mb-6">Automated deployment transitions over developmental iterations.</p>
+                </div>
+                <div class="w-full flex flex-col items-center">
+                    <div class="step-pill opacity-50 bg-slate-50 text-slate-400 border-dashed">
+                        <span class="text-xs uppercase tracking-wider font-bold block mb-0.5 opacity-60">Legacy Evolution</span>
+                        <p class="text-sm">Task Scheduler <span class="text-xs font-normal text-slate-400 ml-1">| Local Batches</span></p>
+                    </div>
+                    <div class="h-5 w-px border-l-2 border-slate-200 border-dashed my-1"></div>
+                    <div class="step-pill border-emerald-100 bg-emerald-50/40 text-emerald-900">
+                        <span class="text-xs text-emerald-600 uppercase tracking-wider font-bold block mb-0.5">Enterprise Iteration</span>
+                        <p class="text-sm">Azure DevOps <span class="text-xs font-normal text-emerald-700/70 ml-1">| Variable Secrets</span></p>
+                    </div>
+                    <div class="h-5 w-px border-l-2 border-slate-200 border-dashed my-1"></div>
+                    <div class="step-pill border-amber-200 bg-amber-50/50 text-amber-900">
+                        <span class="text-xs text-amber-600 uppercase tracking-wider font-bold block mb-0.5">Modern Standard</span>
+                        <p class="text-sm">GitHub Actions <span class="text-xs font-normal text-amber-700/70 ml-1">| Self-Hosted Service</span></p>
+                    </div>
+                                        
+                    <div class="mt-6 p-3.5 bg-slate-50 border border-slate-100 rounded-lg text-xs italic text-slate-500 text-center w-full">
+                        "The migration to a self-hosted platform runner ecosystem ensured 99.9% processing availability without persistent interactive sessions."
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="layers" class="space-y-4">
+            <h2 class="text-2xl font-bold tracking-tight text-slate-900">Featured Data Pipelines</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-lg border border-slate-200/80 shadow-sm">
+                    <h4 class="font-semibold text-sm text-emerald-600 mb-1.5">University Intelligence</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Transforms deeply nested transactional payloads into optimized relational structures.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg border border-slate-200/80 shadow-sm">
+                    <h4 class="font-semibold text-sm text-slate-800 mb-1.5">Quality Validator</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Strict pre-load ingestion checkpoint ensuring comprehensive strict structural schema protection.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg border border-slate-200/80 shadow-sm">
+                    <h4 class="font-semibold text-sm text-amber-600 mb-1.5">Automated Auditor</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Anomalous pattern monitoring built on data profiling maps hooked directly into alert vectors.</p>
+                </div>
+                <div class="bg-white p-5 rounded-lg border border-slate-200/80 shadow-sm">
+                    <h4 class="font-semibold text-sm text-slate-800 mb-1.5">Duplicate Detection</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Ensures strict synchronization constraints remain persistent across decoupled distributed storage stores.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800">
+        <div class="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h5 class="text-white font-semibold tracking-wider text-[11px] uppercase mb-3 text-emerald-400">Technical Stack Deployment</h5>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="bg-slate-800 px-2.5 py-1 rounded text-[11px] font-medium text-slate-300">Python</span>
+                    <span class="bg-slate-800 px-2.5 py-1 rounded text-[11px] font-medium text-slate-300">MySQL</span>
+                    <span class="bg-slate-800 px-2.5 py-1 rounded text-[11px] font-medium text-slate-300">PowerShell</span>
+                    <span class="bg-slate-800 px-2.5 py-1 rounded text-[11px] font-medium text-slate-300">GitHub Actions</span>
+                    <span class="bg-slate-800 px-2.5 py-1 rounded text-[11px] font-medium text-slate-300">Azure DevOps</span>
+                </div>
+            </div>
+            <div class="md:text-right flex flex-col md:items-end justify-center text-xs">
+                <p class="text-slate-500 font-medium">Core Platform Configuration Framework v2.0</p>
+                <a href="https://github.com/panxiaoyan225-sudo" class="text-emerald-400 font-semibold hover:text-emerald-300 mt-1 transition-colors">← View Source Core Repository</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const wrapText = (str) => {
+            if(str.length <= 16) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(w => {
+                if((currentLine + w).length > 16) {
+                    lines.push(currentLine.trim());
+                    currentLine = w + ' ';
+                } else {
+                    currentLine += w + ' ';
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const ctx = document.getElementById('stackChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ingestion', 'Validation', 'Persistence', 'Audit / Alert'].map(wrapText),
+                datasets: [{
+                    label: 'Operational Effort (%)',
+                    data: [20, 35, 15, 30],
+                    backgroundColor: ['#1E293B', '#D97706', '#059669', '#64748B'],
+                    borderRadius: 4,
+                    barThickness: 24
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        padding: 10,
+                        backgroundColor: '#0F172A',
+                        callbacks: {
+                            title: (items) => Array.isArray(items[0].label) ? items[0].label.join(' ') : items[0].label
+                        }
+                    }
+                },
+                scales: {
+                    y: { 
+                        grid: { color: '#F1F5F9' },
+                        ticks: { color: '#94A3B8', font: { size: 11 } },
+                        border: { dash: [4, 4] }
+                    },
+                    x: { grid: { display: false }, ticks: { color: '#475569', font: { size: 11, weight: '500' } } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
