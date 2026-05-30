@@ -1,9 +1,3 @@
-Integrated the API key management, the decoupled Python-to-SQL architecture, and the cross-database native linking scenario (along with its architectural connection to Azure Data Factory Linked Services). I also added a clean, professional **Repository Structure tree map** that precisely highlights your new files and folders, which is a major bonus for interviewers reviewing your GitHub profile.
-
-### Raw Markdown File
-[file-tag: code-generated-file-0-1780152980968482768]
-
-```markdown
 # Multi-Source Data Engineering Framework & AI Auditor
 [🚀 View Data Pipeline Infographic](https://panxiaoyan225-sudo.github.io/data-pipelines/data_infographic.html)
 
