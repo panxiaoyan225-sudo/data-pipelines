@@ -19,7 +19,7 @@ def get_api_data():
 
     try:
         # 3. Executing the Web Call with a Network Timeout :sending the request with a timeout
-        #If the web server threw an error (like 404 Not Found or 500 Internal Server Error), 
+        # If the web server threw an error (like 404 Not Found or 500 Internal Server Error), 
         # this line immediately halts the script and throws an exception rather than passing corrupted or empty data down the line.
         response = requests.get(api_url, headers=headers, timeout=10)
         
