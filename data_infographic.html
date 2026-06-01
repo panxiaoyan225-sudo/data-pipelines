@@ -68,28 +68,6 @@
         </section>
 
         <div class="premium-card space-y-3">
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">The Architecture Stack</h3>
-                <p class="text-[11px] text-zinc-500">Evaluating the data flow from ingestion to persistence.</p>
-            </div>
-            
-            <div class="chart-container">
-                <canvas id="stackChart"></canvas>
-            </div>
-            
-            <div class="pt-2 border-t border-zinc-100 grid grid-cols-2 gap-3 text-[11px]">
-                <div class="flex items-start space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-zinc-800 mt-1 shrink-0"></span>
-                    <span class="text-zinc-500 leading-tight"><strong>Ingestion:</strong> REST APIs & Legacy CSV Support</span>
-                </div>
-                <div class="flex items-start space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-600 mt-1 shrink-0"></span>
-                    <span class="text-zinc-500 leading-tight"><strong>Validation:</strong> Custom Logical Integrity Gate</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="premium-card space-y-3">
             <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Orchestration Evolution</h3>
             
             <div class="flex items-center justify-between text-center bg-zinc-50 p-2.5 rounded border border-zinc-200/60 text-[11px] gap-1">
@@ -114,105 +92,31 @@
             </div>
         </div>
 
+        <div class="premium-card space-y-3">
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">The Architecture Stack</h3>
+                <p class="text-[11px] text-zinc-500">Evaluating the data flow from ingestion to persistence.</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="stackChart"></canvas>
+            </div>
+            
+            <div class="pt-2 border-t border-zinc-100 grid grid-cols-2 gap-3 text-[11px]">
+                <div class="flex items-start space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-zinc-800 mt-1 shrink-0"></span>
+                    <span class="text-zinc-500 leading-tight"><strong>Ingestion:</strong> REST APIs & Legacy CSV Support</span>
+                </div>
+                <div class="flex items-start space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600 mt-1 shrink-0"></span>
+                    <span class="text-zinc-500 leading-tight"><strong>Validation:</strong> Custom Logical Integrity Gate</span>
+                </div>
+            </div>
+        </div>
+
         <section id="layers" class="space-y-2">
             <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Featured Data Pipelines</h2>
             <div class="grid grid-cols-2 gap-2.5">
                 <div class="bg-white p-3 rounded border border-zinc-200/80 shadow-sm">
                     <h4 class="font-bold text-xs text-emerald-600 mb-1">University Intelligence</h4>
-                    <p class="text-[11px] text-zinc-500 leading-normal">Transforms nested JSON into optimized relational SQL tables.</p>
-                </div>
-                <div class="bg-white p-3 rounded border border-zinc-200/80 shadow-sm">
-                    <h4 class="font-bold text-xs text-zinc-800 mb-1">Quality Validator</h4>
-                    <p class="text-[11px] text-zinc-500 leading-normal">Pre-load gatekeeper ensuring 100% schema integrity.</p>
-                </div>
-                <div class="bg-white p-3 rounded border border-zinc-200/80 shadow-sm">
-                    <h4 class="font-bold text-xs text-zinc-800 mb-1">Automated Auditor</h4>
-                    <p class="text-[11px] text-zinc-500 leading-normal">Anomalous transaction detection with Slack API alerts.</p>
-                </div>
-                <div class="bg-white p-3 rounded border border-zinc-200/80 shadow-sm">
-                    <h4 class="font-bold text-xs text-zinc-800 mb-1">Duplicate Detection</h4>
-                    <p class="text-[11px] text-zinc-500 leading-normal">Ensures "Single Source of Truth" across data stores.</p>
-                </div>
-            </div>
-        </section>
-
-        <footer class="pt-4 border-t border-zinc-200 text-zinc-400 space-y-3">
-            <div class="flex flex-wrap items-center justify-between gap-2 text-[11px]">
-                <div>
-                    <span class="text-zinc-500 font-medium mr-2">Technical Stack Summary:</span>
-                    <div class="inline-flex gap-1.5">
-                        <span class="bg-zinc-100 text-zinc-600 px-1.5 py-0.5 rounded text-[10px]">Python</span>
-                        <span class="bg-zinc-100 text-zinc-600 px-1.5 py-0.5 rounded text-[10px]">MySQL</span>
-                        <span class="bg-zinc-100 text-zinc-600 px-1.5 py-0.5 rounded text-[10px]">PowerShell</span>
-                        <span class="bg-zinc-100 text-zinc-600 px-1.5 py-0.5 rounded text-[10px]">GitHub Actions</span>
-                        <span class="bg-zinc-100 text-zinc-600 px-1.5 py-0.5 rounded text-[10px]">Azure DevOps</span>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-zinc-400/80 pt-1">
-                <span>Data Engineering Framework & AI Auditor v2.0</span>
-                <a href="https://github.com/panxiaoyan225-sudo" class="text-emerald-600 font-semibold hover:underline">← View Github Repository</a>
-            </div>
-        </footer>
-
-    </main>
-
-    <script>
-        // Custom Wrap Function for long labels
-        const wrapText = (str) => {
-            if(str.length <= 14) return str;
-            const words = str.split(' ');
-            const lines = [];
-            let currentLine = '';
-            words.forEach(w => {
-                if((currentLine + w).length > 14) {
-                    lines.push(currentLine.trim());
-                    currentLine = w + ' ';
-                } else {
-                    currentLine += w + ' ';
-                }
-            });
-            lines.push(currentLine.trim());
-            return lines;
-        };
-
-        const ctx = document.getElementById('stackChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Ingestion', 'Validation', 'Persistence', 'Audit/Alert'].map(wrapText),
-                datasets: [{
-                    label: 'Operational Effort',
-                    data: [20, 35, 15, 30],
-                    backgroundColor: ['#27272A', '#059669', '#71717A', '#A1A1AA'],
-                    borderRadius: 3,
-                    barThickness: 16
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            title: (items) => Array.isArray(items[0].label) ? items[0].label.join(' ') : items[0].label
-                        }
-                    }
-                },
-                scales: {
-                    y: { display: false, beginAtZero: true },
-                    x: { grid: { display: false }, ticks: { color: '#27272A', font: { size: 10, weight: '500' } } }
-                }
-            }
-        });
-    </script>
-
-    <div class="hidden" aria-hidden="true">
-        Palette: Energetic Tech (Deep Navy #102A43 shifted to Sleek Zinc/Emerald Premium Gray).
-        Narrative: Focus on efficiency (95% reduction), layer-based architecture, and orchestration evolution.
-        Confirmations: NO SVG used. NO MERMAID JS used.
-    </div>
-
-</body>
-</html>
+                    <p class="text-[11px] text-zinc-500 leading-normal">Transforms nested JSON into optimized relational SQL
