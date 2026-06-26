@@ -28,8 +28,9 @@ def get_api_data():
         
         # Parse the JSON response:Turning Raw Payload into Python Data
         # Parse the response content as JSON and assign it to the variable 'data'
-        data = response.json()
         #the data is stored in your computer's temporary volatile memory (RAM), specifically inside a Python variable named data.
+        data = response.json()
+       
  
         print(f"✅ Success! Successfully retrieved {len(data)} records.")
         return data

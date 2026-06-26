@@ -15,20 +15,6 @@ steps:
   - checkout: self
     clean: true
 
-  - powershell: |
-      $envContent = @"
-      DB_USER=$(DB_USER)
-      DB_PASS=$(DB_PASS)
-      DB_HOST=$(DB_HOST)
-      DB_PORT=$(DB_PORT)
-      DB_NAME=$(DB_NAME)
-      SLACK_TOKEN=$(SLACK_TOKEN)
-      EXPORT_PATH=$(Pipeline.Workspace)\exports
-      "@
-      # Force UTF8 encoding for the .env file as well
-      [System.IO.File]::WriteAllLines("$(Build.SourcesDirectory)\.env", $envContent, (New-Object System.Text.UTF8Encoding($false)))
-    displayName: 'Create runtime .env'
-
   - script: |
       "$(pythonPath)" -m pip install --upgrade pip
       if exist requirements.txt (
@@ -42,8 +28,14 @@ steps:
       "$(pythonPath)" .\pipeline_py\auditor.py
       "$(pythonPath)" .\pipeline_py\dup_pipelines.py
     env:
-      # This line fixes the 'charmap' codec error in image_fec2ca.png
       PYTHONUTF8: 1
+      DB_USER: $(DB_USER)
+      DB_PASS: $(DB_PASS)
+      DB_HOST: $(DB_HOST)
+      DB_PORT: $(DB_PORT)
+      DB_NAME: $(DB_NAME)
+      SLACK_TOKEN: $(SLACK_TOKEN)
+      EXPORT_PATH: $(Pipeline.Workspace)\exports
     displayName: 'Run ETL Scripts'
 
   # --- NEW: SUCCESS NOTIFICATION ---
