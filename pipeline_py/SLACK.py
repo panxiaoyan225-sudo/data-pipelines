@@ -42,3 +42,11 @@ def send_slack_notification(message):
     except requests.RequestException as e:
         print(f"Slack request failed: {e}")
         return False
+
+
+if __name__ == "__main__":
+    import sys
+
+    message = sys.argv[1] if len(sys.argv) > 1 else "Pipeline notification"
+    ok = send_slack_notification(message)
+    sys.exit(0 if ok else 1)
