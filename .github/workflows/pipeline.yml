@@ -15,27 +15,13 @@ jobs:
     runs-on: [self-hosted, MyLocalLaptop]
 
     env:
-      # Direct path to your public Python install
-      PYTHON_EXE: 'C:\Python312\python.exe'
+      # Cursor venv Python (C:\Python\venv)
+      PYTHON_EXE: 'C:\Python\venv\Scripts\python.exe'
       PYTHONUTF8: 1
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Create runtime .env
-        shell: powershell
-        run: |
-          $envContent = @"
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASS=${{ secrets.DB_PASS }}
-          DB_HOST=${{ secrets.DB_HOST }}
-          DB_PORT=${{ secrets.DB_PORT }}
-          DB_NAME=${{ secrets.DB_NAME }}
-          SLACK_TOKEN=${{ secrets.SLACK_TOKEN }}
-          EXPORT_PATH: ${{ secrets.EXPORT_PATH }} # <-- Crucial addition
-          "@
-          [System.IO.File]::WriteAllLines("${{ github.workspace }}\.env", $envContent, (New-Object System.Text.UTF8Encoding($false)))
 
       - name: Install dependencies
         shell: cmd
@@ -52,11 +38,27 @@ jobs:
           "${{ env.PYTHON_EXE }}" .\pipeline_py\ranking_pipeline.py
           "${{ env.PYTHON_EXE }}" .\pipeline_py\auditor.py
           "${{ env.PYTHON_EXE }}" .\pipeline_py\dup_pipelines.py
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          EXPORT_PATH: ${{ github.workspace }}\exports
+
+      - name: Notify Slack on Success
+        if: success()
+        shell: cmd
+        run: |
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\SLACK.py "✅ ETL Pipeline Completed Successfully! All data models updated."
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
       - name: Notify Slack on Failure
         if: failure()
         shell: cmd
         run: |
-          "${{ env.PYTHON_EXE }}" .\pipeline_py\SLACK.py
+          "${{ env.PYTHON_EXE }}" .\pipeline_py\SLACK.py "🔴 ETL Pipeline Failed! Check the GitHub Actions logs for details."
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}

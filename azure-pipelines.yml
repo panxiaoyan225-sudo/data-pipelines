@@ -7,9 +7,12 @@ pool:
   name: 'MyLocalLaptop'
 
 variables:
+  # This line imports all variable secrets from the Azure DevOps variable group named 'Pipeline-Secrets'
   - group: 'Pipeline-Secrets'
   - name: pythonPath
-    value: 'C:\\Python312\\python.exe'
+    # Using a virtual environment (venv) ensures isolated Python and package dependencies for this pipeline.
+    # This minimizes conflicts, creates reproducible builds, and avoids polluting the global Python install.
+    value: 'C:\\Python\\venv\\Scripts\\python.exe'
 
 steps:
   - checkout: self
