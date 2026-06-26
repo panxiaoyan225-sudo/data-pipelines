@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from dotenv import load_dotenv, find_dotenv
 from SLACK import send_slack_notification
 
@@ -33,7 +33,9 @@ def run_titanic_pipeline():
 
         # 3. Load to MySQL
         engine = create_engine(DB_CONN)
-        df.to_sql("raw_titanic_data", engine, if_exists="replace", index=False)
+        with engine.begin() as conn:
+            conn.execute(text("DROP TABLE IF EXISTS raw_titanic_data"))
+        df.to_sql("raw_titanic_data", engine, if_exists="append", index=False)
 
         # 4. Save to local export folder (overwrite if exists)
         # Local export config

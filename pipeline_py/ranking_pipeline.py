@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from dotenv import load_dotenv, find_dotenv
 
 from SLACK import send_slack_notification
@@ -70,7 +70,9 @@ def run_ranking_pipeline():
         
         # 4. Load to MySQL
         engine = create_engine(DB_CONN)
-        df.to_sql('raw_university_data', engine, if_exists='replace', index=False)
+        with engine.begin() as conn:
+            conn.execute(text("DROP TABLE IF EXISTS raw_university_data"))
+        df.to_sql('raw_university_data', engine, if_exists='append', index=False)
         
         logger.info(f"✅ Success! Loaded {df.shape[0]} universities into MySQL.")
    
