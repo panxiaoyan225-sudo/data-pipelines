@@ -19,6 +19,7 @@ venv/
 # 3. Ignore local system files
 .DS_Store
 Thumbs.db
+*.db
 
 # 4. Ignore environment variables (passwords/API keys)
 .env

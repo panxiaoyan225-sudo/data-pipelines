@@ -16,6 +16,8 @@ jobs:
 
     env:
       # Cursor venv Python (C:\Python\venv)
+      # Using a virtual environment (venv) ensures isolated Python and package dependencies for this pipeline.
+      # This minimizes dependency conflicts, creates reproducible builds, and avoids polluting the global Python install.
       PYTHON_EXE: 'C:\Python\venv\Scripts\python.exe'
       PYTHONUTF8: 1
 

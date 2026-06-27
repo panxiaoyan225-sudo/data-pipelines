@@ -44,9 +44,28 @@ def send_slack_notification(message):
         return False
 
 
+# The following line ensures that the code block beneath it is only executed when this script is run directly,
+# not when it is imported as a module in another script. This is helpful to avoid unwanted side effects on import.
 if __name__ == "__main__":
     import sys
 
+    #  added a CLI entry point to SLACK.py so it now:
+
+# Reads the message from sys.argv[1]
+# Calls send_slack_notification()
+# Exits with code 1 if Slack returns an error (so Azure will flag a failed notification)
+# Other things to note:
+# - This is a CLI entry point to SLACK.py so it now:
+# - Reads the message from sys.argv[1]
+# - Calls send_slack_notification()
+# - Exits with code 1 if Slack returns an error (so Azure will flag a failed notification)
+#
+
+    # It retrieves the first command-line argument as the Slack message to send; if none is provided, a default message is used.
     message = sys.argv[1] if len(sys.argv) > 1 else "Pipeline notification"
+    
+    # Sends the message to Slack via the send_slack_notification() function.
     ok = send_slack_notification(message)
+    
+    # Exits with status code 0 (success) if the message was sent, or 1 (failure) otherwise.
     sys.exit(0 if ok else 1)
